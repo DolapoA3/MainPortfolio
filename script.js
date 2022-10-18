@@ -55,11 +55,12 @@ document.body.addEventListener('mouseleave', () => {
   mouseDot.style.opacity = '0';
 });
 
-const mainBtn = document.querySelector('.main-btn');
+const mainBtns = document.querySelectorAll('.main-btn');
 
+mainBtns.forEach(btn => {
 let ripple;
 
-mainBtn.addEventListener('mouseenter', (e) => {
+btn.addEventListener('mouseenter', (e) => {
   const left = e.clientX - e.target.getBoundingClientRect().left;
   const top = e.clientY - e.target.getBoundingClientRect().top;
 
@@ -67,9 +68,26 @@ mainBtn.addEventListener('mouseenter', (e) => {
   ripple.classList.add('ripple');
   ripple.style.left = `${left}px`;
   ripple.style.top = `${top}px`;
-  mainBtn.prepend(ripple);
+  btn.prepend(ripple);
 });
 
-mainBtn.addEventListener('mouseleave', () => {
-  mainBtn.removeChild(ripple);
+btn.addEventListener('mouseleave', () => {
+  btn.removeChild(ripple);
+});
+})
+
+
+
+const aboutMeText = document.querySelector('.about-me-text');
+const aboutMeTextContent =
+  'I am an aspiring software developer that has grown a strong passion for programming. I consistently create websites & apps for the best user experience. Contact me here. :)';
+
+Array.from(aboutMeTextContent).forEach((char) => {
+  const span = document.createElement('span');
+  span.textContent = char;
+  aboutMeText.appendChild(span);
+
+  span.addEventListener('mouseenter', (e) => {
+    e.target.style.animation = 'aboutMeTextAnim 10s infinite';
+  });
 });
