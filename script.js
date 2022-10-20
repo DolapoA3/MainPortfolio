@@ -172,3 +172,18 @@ projectsBtn.addEventListener('click', (e) => {
 
   showHideBool = !showHideBool;
 });
+
+document.querySelectorAll('.skill-btn').forEach((skill) => {
+  skill.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const skillText = skill.nextElementSibling;
+    skillText.classList.toggle('change');
+
+    const rightPosition = skillText.classList.contains('change')
+      ? `calc(100% - ${getComputedStyle(skill.firstElementChild).width})`
+      : 0;
+
+    skill.firstElementChild.style.right = rightPosition;
+  });
+});

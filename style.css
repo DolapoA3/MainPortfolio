@@ -13,6 +13,7 @@
 
 html {
   font-size: 62.5%;
+  overflow-x: hidden;
   scroll-behavior: smooth;
 }
 
@@ -117,7 +118,6 @@ html {
   word-break: break-all;
   line-height: 4;
 }
-
 
 .mouse-circle,
 .mouse-dot {
@@ -403,7 +403,6 @@ img {
   padding: 10rem 10rem 15rem 10rem;
 }
 
-
 .about-me-text {
   width: 80%;
   margin: auto;
@@ -601,4 +600,56 @@ img {
   transform: rotateZ(90deg) translateX(-0.4rem);
   /* border-left: 0.1rem, solid #fff; */
   border-right: none;
+}
+
+.section-4 {
+  position: relative;
+  width: 100%;
+}
+
+.skills-wrapper {
+  width: 100%;
+  margin-left: 28rem;
+  flex-direction: column;
+}
+
+.skill {
+  width: 70%;
+  margin: 2rem 0;
+  border-bottom: 0.5rem solid #700c0c;
+}
+
+.skill-btn {
+  width: 100%;
+  position: relative;
+  display: block;
+  height: 15rem;
+}
+
+.skill-btn span {
+  font-family: 'Poppins', sans-serif;
+  font-size: 10rem;
+  font-style: italic;
+  font-weight: bold;
+  color: #700c0c;
+  position: absolute;
+  right: 0;
+  transition: right 0.5s;
+}
+
+.skill-text {
+  font-size: 5rem;
+  color: #a7a6a6;
+  letter-spacing: 0.1rem;
+  height: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.2s;
+}
+
+.change.skill-text {
+  height: 15rem;
+  visibility: visible;
+  opacity: 1;
+  transition: height 0.5s, opacity 0.5s 0.2s;
 }
