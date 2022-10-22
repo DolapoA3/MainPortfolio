@@ -76,6 +76,50 @@ mainBtns.forEach((btn) => {
   });
 });
 
+const halfCircles = document.querySelectorAll('.half-circle');
+const halfCircleTop = document.querySelector('.half-circle-top');
+const progressBarCircle = document.querySelector('.progress-bar-circle');
+
+const progressBarFn = () => {
+  const pageViewportHeight = window.innerHeight;
+  const pageHeight = document.documentElement.scrollHeight;
+  const scrolledPortion = window.pageYOffset;
+
+  const scrolledPortionDegree =
+    (scrolledPortion / (pageHeight - pageViewportHeight)) * 360;
+
+  halfCircles.forEach((el) => {
+    el.style.transform = `rotate(${scrolledPortionDegree}deg)`;
+
+    if (scrolledPortionDegree >= 180) {
+      halfCircles[0].style.transform = 'rotate(180deg)';
+      halfCircleTop.style.opacity = '0';
+    } else {
+      halfCircleTop.style.opacity = '1';
+    }
+  });
+};
+
+const menuIcon = document.querySelector('.menu-icon');
+const navbar = document.querySelector('.navbar');
+
+document.addEventListener('scroll', () => {
+  menuIcon.classList.add('show-menu-icon');
+  navbar.classList.add('hide-navbar');
+
+  if (window.scrollY === 0) {
+    menuIcon.classList.remove('show-menu-icon');
+    navbar.classList.remove('hide-navbar');
+  }
+
+  progressBarFn();
+});
+
+menuIcon.addEventListener('click', () => {
+  menuIcon.classList.remove('show-menu-icon');
+  navbar.classList.remove('hide-navbar');
+});
+
 const aboutMeText = document.querySelector('.about-me-text');
 const aboutMeTextContent =
   'I am an aspiring software developer that has grown a strong passion for programming. I consistently create websites & apps for the best user experience. Just contact me. :)';
@@ -209,26 +253,26 @@ formInputs.forEach((input) => {
   });
 });
 
-const slideshow = document.querySelector('.slideshow');
+// const slideshow = document.querySelector('.slideshow');
 
-setInterval(() => {
-  const firstIcon = slideshow.firstElementChild;
+// setInterval(() => {
+//   const firstIcon = slideshow.firstElementChild;
 
-  firstIcon.classList.add('faded-out');
+//   firstIcon.classList.add('faded-out');
 
-  const thirdIcon = slideshow.children[3];
+//   const thirdIcon = slideshow.children[3];
 
-  thirdIcon.classList.add('light');
+//   thirdIcon.classList.add('light');
 
-  thirdIcon.previousElementSibling.classList.remove('light')
+//   thirdIcon.previousElementSibling.classList.remove('light')
 
-  setTimeout(() => {
-    slideshow.removeChild(firstIcon);
+//   setTimeout(() => {
+//     slideshow.removeChild(firstIcon);
 
-    slideshow.appendChild(firstIcon);
+//     slideshow.appendChild(firstIcon);
 
-    setTimeout(() => {
-      firstIcon.classList.remove('faded-out');
-    }, 500);
-  }, 500);
-}, 3000);
+//     setTimeout(() => {
+//       firstIcon.classList.remove('faded-out');
+//     }, 500);
+//   }, 500);
+// }, 3000);
