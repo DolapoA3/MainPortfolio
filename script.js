@@ -76,14 +76,29 @@ mainBtns.forEach((btn) => {
   });
 });
 
+const sections = document.querySelectorAll('section');
+const progressBar = document.querySelector('.progress-bar');
 const halfCircles = document.querySelectorAll('.half-circle');
 const halfCircleTop = document.querySelector('.half-circle-top');
 const progressBarCircle = document.querySelector('.progress-bar-circle');
 
-const progressBarFn = () => {
+let scrolledPortion = 0;
+let scrollBool = false;
+let imageWrapper = false;
+
+const progressBarFn = (bigImgWrapper) => {
+  imageWrapper = bigImgWrapper
+  let pageHeight = 0;
+
   const pageViewportHeight = window.innerHeight;
-  const pageHeight = document.documentElement.scrollHeight;
-  const scrolledPortion = window.pageYOffset;
+
+  if (!imageWrapper) {
+    pageHeight = document.documentElement.scrollHeight;
+    scrolledPortion = window.pageYOffset;
+  } else {
+    pageHeight = imageWrapper.firstElementChild.scrollHeight;
+    scrolledPortion = imageWrapper.scrollTop;
+  }
 
   const scrolledPortionDegree =
     (scrolledPortion / (pageHeight - pageViewportHeight)) * 360;
@@ -98,12 +113,42 @@ const progressBarFn = () => {
       halfCircleTop.style.opacity = '1';
     }
   });
+
+  scrollBool = scrolledPortion + pageViewportHeight === pageHeight;
+
+  if (scrollBool) {
+    progressBarCircle.style.transform = 'rotate(180deg)';
+  } else {
+    progressBarCircle.style.transform = 'rotate(0)';
+  }
 };
+
+progressBar.addEventListener('click', (e) => {
+  e.preventDefault();
+
+  if (!imageWrapper) {
+    const sectionPositions = Array.from(sections).map(
+      (section) => scrolledPortion + section.getBoundingClientRect().top
+    );
+
+    const position = sectionPositions.find((sectionPosition) => {
+      return sectionPosition > scrolledPortion;
+    });
+
+    scrollBool ? window.scrollTo(0, 0) : window.scrollTo(0, position);
+  } else {
+    scrollBool
+      ? imageWrapper.scrollTo(0, 0)
+      : imageWrapper.scrollTo(0, imageWrapper.scrollHeight);
+  }
+});
+
+progressBarFn();
 
 const menuIcon = document.querySelector('.menu-icon');
 const navbar = document.querySelector('.navbar');
 
-document.addEventListener('scroll', () => {
+const scrollFn = () => {
   menuIcon.classList.add('show-menu-icon');
   navbar.classList.add('hide-navbar');
 
@@ -113,7 +158,9 @@ document.addEventListener('scroll', () => {
   }
 
   progressBarFn();
-});
+};
+
+document.addEventListener('scroll', scrollFn);
 
 menuIcon.addEventListener('click', () => {
   menuIcon.classList.remove('show-menu-icon');
@@ -161,12 +208,24 @@ projects.forEach((project, i) => {
     bigImgWrapper.appendChild(bigImg);
     document.body.style.overflowY = 'hidden';
 
+    document.removeEventListener('scroll', scrollFn);
+
+    progressBarFn(bigImgWrapper);
+
+    bigImgWrapper.onscroll = () => {
+      progressBarFn(bigImgWrapper);
+    };
+
     projectHideBtn.classList.add('change');
 
     projectHideBtn.onclick = () => {
       projectHideBtn.classList.remove('change');
       bigImgWrapper.remove();
       document.body.style.overflowY = 'scroll';
+
+      document.addEventListener('scroll', scrollFn);
+
+      progressBarFn();
     };
   });
 
