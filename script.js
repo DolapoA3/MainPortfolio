@@ -87,7 +87,7 @@ let scrollBool = false;
 let imageWrapper = false;
 
 const progressBarFn = (bigImgWrapper) => {
-  imageWrapper = bigImgWrapper
+  imageWrapper = bigImgWrapper;
   let pageHeight = 0;
 
   const pageViewportHeight = window.innerHeight;
@@ -312,26 +312,55 @@ formInputs.forEach((input) => {
   });
 });
 
-// const slideshow = document.querySelector('.slideshow');
+const form = document.querySelector('.contact-form');
+const username = document.getElementById('name');
+const email = document.getElementById('email');
+const subject = document.getElementById('subject');
+const message = document.getElementById('message');
+const messages = document.querySelectorAll('.message');
 
-// setInterval(() => {
-//   const firstIcon = slideshow.firstElementChild;
+const error = (input, message) => {
+  input.nextElementSibling.classList.add('error');
+  input.nextElementSibling.textContent = message;
+};
 
-//   firstIcon.classList.add('faded-out');
+const success = (input) => {
+  input.nextElementSibling.classList.remove('error');
+};
 
-//   const thirdIcon = slideshow.children[3];
+const checkRequiredFields = (inputArr) => {
+  inputArr.forEach((input) => {
+    if (input.value.trim() === '') {
+      error(input, `${input.id} is required`);
+    }
+  });
+};
 
-//   thirdIcon.classList.add('light');
+const checkLength = (input, min) => {
+  if (input.value.trim().length < min) {
+    error(input, `${input.id} must be at least ${min} characters`);
+  } else {
+    success(input);
+  }
+};
 
-//   thirdIcon.previousElementSibling.classList.remove('light')
+const checkEmail = (input) => {
+  const regEx =
+    /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/;
 
-//   setTimeout(() => {
-//     slideshow.removeChild(firstIcon);
+  if (regEx.test(input.value.trim())) {
+    success(input);
+  } else {
+    error(input, 'Email is not valid');
+  }
+};
 
-//     slideshow.appendChild(firstIcon);
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
 
-//     setTimeout(() => {
-//       firstIcon.classList.remove('faded-out');
-//     }, 500);
-//   }, 500);
-// }, 3000);
+  checkLength(username, 2);
+  checkLength(subject, 2);
+  checkLength(message, 10);
+  checkEmail(email);
+  checkRequiredFields([username, email, subject, message]);
+});
