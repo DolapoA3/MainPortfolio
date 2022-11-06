@@ -657,6 +657,7 @@ img {
 
 .project-img {
   width: 100%;
+  height: auto;
   border-radius: 0.5rem;
   padding: 7rem 20rem;
   opacity: 0.9;
