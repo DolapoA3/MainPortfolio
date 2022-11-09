@@ -169,7 +169,7 @@ menuIcon.addEventListener('click', () => {
 
 const aboutMeText = document.querySelector('.about-me-text');
 const aboutMeTextContent =
-  'I am an aspiring software developer that has grown a strong passion for programming. I consistently create websites & apps for the best user experience. Just contact me. :)';
+  'I am a software developer that has a strong passion for programming. I consistently create websites & apps for the best user experience. Just contact me. :)';
 
 Array.from(aboutMeTextContent).forEach((char) => {
   const span = document.createElement('span');
